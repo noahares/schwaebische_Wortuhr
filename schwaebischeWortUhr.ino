@@ -11,8 +11,39 @@ int brightness = 0; //Helligkeit
 
 int color; //Variable für Farbe
 
+//eeprom adressen
 int colAddr = 0;
 int brightAddr = 0;
+
+/*
+all hours
+*/
+int[] oise ={62,63,64,65}
+int[] zwoie = {62,63,64,65};
+int[] dreie = {83,84,85,86,87};
+int[] viere = {100,101,102,103,99};
+int[] fuenfe = {49,50,51,52,53};
+int[] sechse = {58,59,60,61,62,63};
+int[] siebne = {104,105,106,107,108,109};
+int[] achte = {71,72,73,74,75};
+int[] neune = {91,92,93,94,95};
+int[] zehne = {88,89,90,91,92};
+int[] elfe = {55,56,57,58};
+int[] zwoelfe = {77,78,79,80,81,82};
+
+/*
+all parts of an hour
+*/
+int[] vor = {33,34,35};
+int[] nach = {40,41,42,43};
+int[] fuenf = {29,30,31,32}
+int[] zehn = {22,23,24,25};
+int[] viertl = {12,13,14,15,16,17};
+int[] halb = {44,45,46,47};
+int[] dreiviertl = {12,13,14,15,16,17,18,19,20,21};
+
+//es isch
+[] int start = {0,1,2,3,4,5,6};
 
 #include <Adafruit_NeoPixel.h>
 #ifdef __AVR__
@@ -20,12 +51,8 @@ int brightAddr = 0;
 #endif
 
 #define PIN            9 //Pin des LED-Bands
-
 #define NUMPIXELS      114 //Anzahl der LEDs
-
-
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800); //Inizialisierung der NeoPixels Bibliothek
-
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMPIXELS, PIN , NEO_GRB + NEO_KHZ800);
 
 #define DS3231_I2C_ADDRESS 0x68 //Adresse zur Kommunikation mit RTC
@@ -37,10 +64,7 @@ int minutes; //Minutenvariable
 
 
 //Start-Uhrzeit des RTCs inizialisieren
-void setDS3231time(byte second,
-                   byte minute,
-                   byte hour)
-{
+void setDS3231time(byte second, byte minute, byte hour) {
   Wire.beginTransmission(DS3231_I2C_ADDRESS);
   Wire.write(0);
   Wire.write(decToBcd(second)); //sekunden einstellen
@@ -50,20 +74,16 @@ void setDS3231time(byte second,
 }
 
 //konvertiert Dezimalcode in binären Code
-byte decToBcd(byte val)
-{
+byte decToBcd(byte val) {
   return ( (val / 10 * 16) + (val % 10) );
 }
 
 //konvertiert binären Code in Dezimalcode
-byte bcdToDec(byte val)
-{
+byte bcdToDec(byte val) {
   return ( (val / 16 * 10) + (val % 16) );
 }
 
-void EEPROMWriteCol(int colAddr, int color) //store a 2 byte integer at the eeprom at the specified address and address + 1
-
-{
+void EEPROMWriteCol(int colAddr, int color) { //store a 2 byte integer at the eeprom at the specified address and address + 1
   byte lowByte = ((color >> 0) & 0xFF);
   byte highByte = ((color >> 8) & 0xFF);
 
@@ -71,17 +91,14 @@ void EEPROMWriteCol(int colAddr, int color) //store a 2 byte integer at the eepr
   EEPROM.update(colAddr + 1, highByte);
 }
 
-unsigned int EEPROMReadCol(int colAddr) //read a 2 byte integer from the eeprom at the specified address and address + 1
-
-{
+unsigned int EEPROMReadCol(int colAddr) { //read a 2 byte integer from the eeprom at the specified address and address + 1
   byte lowByte = EEPROM.read(colAddr);
   byte highByte = EEPROM.read(colAddr + 1);
 
   return ((lowByte << 0) & 0xFF) + ((highByte << 8) & 0xFF00);
 }
 
-void EEPROMWriteBright(int brightAddr, int brightCount) //store a 2 byte integer at the eeprom at the specified address + 2 and address + 3
-{
+void EEPROMWriteBright(int brightAddr, int brightCount) { //store a 2 byte integer at the eeprom at the specified address + 2 and address + 3
   byte lowByte = ((brightCount >> 0) & 0xFF);
   byte highByte = ((brightCount >> 8) & 0xFF);
 
@@ -89,16 +106,13 @@ void EEPROMWriteBright(int brightAddr, int brightCount) //store a 2 byte integer
   EEPROM.update(brightAddr + 3, highByte);
 }
 
-unsigned int EEPROMReadBright(int brightAddr) // read a 2 byte integer from the eeprom at the specified address + 2 and address + 3
-
-{
+unsigned int EEPROMReadBright(int brightAddr) { // read a 2 byte integer from the eeprom at the specified address + 2 and address + 3
   byte lowByte = EEPROM.read(brightAddr + 2);
   byte highByte = EEPROM.read(brightAddr + 3);
 
   return ((lowByte << 0) & 0xFF) + ((highByte << 8) & 0xFF00);
 }
-void setup()
-{
+void setup() {
   pixels.begin(); //LEDs werden eingebunden
   strip.begin();
   Wire.begin(); //kommunikation wird eingerichtet
@@ -111,10 +125,7 @@ void setup()
   // setDS3231time(39,03,12);
 }
 
-void readDS3231time(byte *second,
-                    byte *minute,
-                    byte *hour)
-{
+void readDS3231time(byte *second, byte *minute, byte *hour) {
   Wire.beginTransmission(DS3231_I2C_ADDRESS);
   Wire.write(0); // gibt O Uhr vor
   Wire.endTransmission();
@@ -125,8 +136,8 @@ void readDS3231time(byte *second,
   *minute = bcdToDec(Wire.read());
   *hour = bcdToDec(Wire.read() & 0x3f);
 }
-void displayTime()
-{
+
+void displayTime() {
   byte second, minute, hour;
   readDS3231time(&second, &minute, &hour); //RTC wird ausgelesen
 
@@ -164,78 +175,73 @@ void displayTime()
     leuchten(113);
   }
 
-  leuchten(0);
-  leuchten(1);
-  leuchten(3);
-  leuchten(4);
-  leuchten(5);
-  leuchten(6);
+  displayContent(start);
 
   //Zeitabschnitte zum Anzeigen von viertl, halb, dreiviertl, zehn, fünf, vor und nach werden definiert
-  if (minutes >= 15 && minutes < 20) viertl();
+  if (minutes >= 15 && minutes < 20) displayContent(viertl);
 
   if (minutes >= 10 && minutes < 15) {
-    zehn();
-    nach();
+    displayContent(zehn);
+    displayContent(nach);
   }
   if (minutes >= 5 && minutes < 10) {
-    fuenf();
-    nach();
+    displayContent(fuenf);
+    displayContent(nach);
   }
 
-  if (minutes >= 30 && minutes < 35) halb();
+  if (minutes >= 30 && minutes < 35) displayContent(halb);
 
   if (minutes >= 20 && minutes < 25) {
-    zehn();
-    vor();
-    halb();
+    displayContent(zehn);
+    displayContent(vor);
+    displayContent(halb);
   }
 
   if (minutes >= 25 && minutes < 30) {
-    fuenf();
-    vor();
-    halb();
+    displayContent(fuenf);
+    displayContent(vor);
+    displayContent(halb);
   }
 
   if (minutes >= 40 && minutes < 45) {
-    zehn();
-    nach();
-    halb();
+    displayContent(zehn);
+    displayContent(nach);
+    displayContent(halb);
   }
 
   if (minutes >= 35 && minutes < 40) {
-    fuenf();
-    nach();
-    halb();
+    displayContent(fuenf);
+    displayContent(nach);
+    displayContent(halb);
   }
 
-  if (minutes >= 45 && minutes < 50) dreiviertl();
+  if (minutes >= 45 && minutes < 50) displayContent(dreiviertl);
 
   if (minutes >= 50 && minutes < 55) {
-    zehn();
-    vor();
+    displayContent(zehn);
+    displayContent(vor);
   }
 
   if (minutes >= 55 && minutes < 60) {
-    fuenf();
-    vor();
+    displayContent(fuenf);
+    displayContent(vor);
   }
 
   //Stunden-Anzeige wird zugewiesen
   if (hours > 12) hours = hours - 12;
-  if (hours == 0) zwoelfe();
-  if (hours == 1) oise();
-  if (hours == 2) zwoie();
-  if (hours == 3) dreie();
-  if (hours == 4) viere();
-  if (hours == 5) fuenfe();
-  if (hours == 6) sechse();
-  if (hours == 7) siebne();
-  if (hours == 8) achte();
-  if (hours == 9) neune();
-  if (hours == 10) zehne();
-  if (hours == 11) elfe();
-  if (hours == 12) zwoelfe();
+  if (hours == 0) displayContent(zwoelfe);
+  if (hours == 1) displayContent(oise);
+  if (hours == 2) displayContent(zwoie);
+  if (hours == 3) displayContent(dreie);
+  if (hours == 4) displayContent(viere);
+  if (hours == 5) displayContent(fuenfe);
+  if (hours == 6) displayContent(sechse);
+  if (hours == 7) displayContent(siebne);
+  if (hours == 8) displayContent(achte);
+  if (hours == 9) displayContent(neune);
+  if (hours == 10) displayContent(zehne);
+  if (hours == 11) displayContent(elfe);
+  if (hours == 12) displayContent(zwoelfe);
 
   //optional zur Ausgabe von Sekunden auf dem seriellen Monitor
   /*Serial.print(":");
@@ -246,165 +252,16 @@ void displayTime()
     Serial.println(second, DEC);*/
 
 }
-void loop()
-{
+void loop() {
   t.update(); //Update-Funktion wird bei jeden loop ausgeführt
 }
 
-//zuweisen der LEDs, die für die einzelnen Wörter leuchten sollen
-void vor() {
-  leuchten(33);
-  leuchten(34);
-  leuchten(35);
-}
 
-void nach() {
-  leuchten(40);
-  leuchten(41);
-  leuchten(42);
-  leuchten(43);
+void displayContent(int[] leds)  {
+  for (led l : leds) {
+    leuchten(l);
+  }
 }
-
-void fuenf() {
-  leuchten(29);
-  leuchten(30);
-  leuchten(31);
-  leuchten(32);
-}
-
-void zehn() {
-  leuchten(22);
-  leuchten(23);
-  leuchten(24);
-  leuchten(25);
-}
-
-void viertl() {
-  leuchten(12);
-  leuchten(13);
-  leuchten(14);
-  leuchten(15);
-  leuchten(16);
-  leuchten(17);
-}
-
-void halb() {
-  leuchten(44);
-  leuchten(45);
-  leuchten(46);
-  leuchten(47);
-}
-
-void dreiviertl() {
-  leuchten(12);
-  leuchten(13);
-  leuchten(14);
-  leuchten(15);
-  leuchten(16);
-  leuchten(17);
-  leuchten(18);
-  leuchten(19);
-  leuchten(20);
-  leuchten(21);
-}
-
-void oise() {
-  leuchten(62);
-  leuchten(63);
-  leuchten(64);
-  leuchten(65);
-}
-
-void zwoie() {
-  leuchten(66);
-  leuchten(67);
-  leuchten(68);
-  leuchten(69);
-  leuchten(70);
-}
-
-void dreie() {
-  leuchten(83);
-  leuchten(84);
-  leuchten(85);
-  leuchten(86);
-  leuchten(87);
-}
-
-void viere() {
-  leuchten(100);
-  leuchten(101);
-  leuchten(102);
-  leuchten(103);
-  leuchten(99);
-}
-
-void fuenfe() {
-  leuchten(49);
-  leuchten(50);
-  leuchten(51);
-  leuchten(52);
-  leuchten(53);
-}
-
-void sechse() {
-  leuchten(58);
-  leuchten(59);
-  leuchten(60);
-  leuchten(61);
-  leuchten(62);
-  leuchten(63);
-}
-
-void siebne() {
-  leuchten(104);
-  leuchten(105);
-  leuchten(106);
-  leuchten(107);
-  leuchten(108);
-  leuchten(109);
-}
-
-void achte() {
-  leuchten(71);
-  leuchten(72);
-  leuchten(73);
-  leuchten(74);
-  leuchten(75);
-}
-
-void neune() {
-  leuchten(91);
-  leuchten(92);
-  leuchten(93);
-  leuchten(94);
-  leuchten(95);
-}
-
-void zehne() {
-  leuchten(88);
-  leuchten(89);
-  leuchten(90);
-  leuchten(91);
-  leuchten(92);
-}
-
-void elfe() {
-  leuchten(55);
-  leuchten(56);
-  leuchten(57);
-  leuchten(58);
-}
-
-void zwoelfe() {
-  leuchten(77);
-  leuchten(78);
-  leuchten(79);
-  leuchten(80);
-  leuchten(81);
-  leuchten(82);
-}
-
 
 void leuchten(int n) {
   color = EEPROMReadCol(colAddr);
@@ -433,39 +290,30 @@ void leuchten(int n) {
     case 1:
       pixels.setPixelColor(n, pixels.Color(0, 0, brightness)); //blau
       break;
-
     case 2:
       pixels.setPixelColor(n, pixels.Color(brightness, 0, 0)); //rot
       break;
-
     case 3:
       pixels.setPixelColor(n, pixels.Color(0, brightness, 0)); //grün
       break;
-
     case 4:
       pixels.setPixelColor(n, pixels.Color(brightness, brightness, 0)); //gelb
       break;
-
     case 5:
       pixels.setPixelColor(n, pixels.Color(brightness, 0, brightness)); //lila
       break;
-
     case 6:
       pixels.setPixelColor(n, pixels.Color(0, brightness, brightness)); //hellblau
       break;
-
     case 7:
       pixels.setPixelColor(n, pixels.Color(brightness, brightness, brightness)); //weiss
       break;
-
     case 8:
       pixels.setPixelColor(n, pixels.Color(random(0, brightness), random(0, brightness), random(0, brightness))); //strobo
       break;
-
     default:
       pixels.setPixelColor(n, pixels.Color(0, 0, brightness)); //wenn kein Signal passt, dann blau
       break;
-
   }
 
 
@@ -475,7 +323,7 @@ void leuchten(int n) {
     EEPROMWriteBright(brightAddr, brightCount);
   }
 
-  //Heligkeit wird je nach Rest auf elligkeitszähler und 6 verändert
+  //Heligkeit wird je nach Rest auf Helligkeitszähler und 6 verändert
   switch (brightCount % 6) {
     case 0: brightness = 60;
       break;
@@ -492,8 +340,6 @@ void leuchten(int n) {
     default: brightness = 60; //standard
       break;
   }
-
-
 
   if (btVal == 'a') { //flo
     pixels.clear();
