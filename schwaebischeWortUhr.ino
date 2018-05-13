@@ -46,14 +46,22 @@ int[] start = {0,1,2,3,4,5,6};
 
 int[] A = {108,89,85,68,62,47,39,26,16,28,37,51,58,74,73,72,71,70,69,79,97,100};
 int[] E = {107,106,105,104,103,102,101,90,85,68,63,46,41,24,19,18,17,16,15,14,13,62,61,60,59,58,57};
+int[] F = {107,90,85,68,63,46,41,24,19,18,17,16,15,14,13,62,61,60,59};
 int[] H = {107,90,85,68,63,46,41,24,19,13,30,35,52,57,74,79,96,101,57,58,59,60,61,62,63};
+int[] I = {104,93,82,71,90,49,38,27,16};
 int[] L = {90,85,86,63,46,41,24,19,107,106,105,104,103,102,101};
+int[] M = {108,89,86,67,64,45,42,23,20,24,40,48,60,50,36,30,12,31,34,53,56,75,78,97,100};
 int[] N = {108.89,86,67,64,45,42,23,20,24,40,48,60,72,80,96,100,97,78,75,56,53,34,31,12};
 int[] O = {17,25,41,45,64,67,85,91,105,104,103,95,79,75,56,53,35,29,15,16};
+int[] R = {107,90,85,68,63,46,41,24,19,18,17,16,15,14,30,34,52,58,59,60,61,62,72,80,96,100};
+int[] S = {108,107,106,105,104,103,102,96,78,74,58,59,60,61,62,46,42,24,18,17,16,15,14,13,12};
+int[] T = {104,93,82,71,90,49,38,27,16,15,14,13,12,17,18,19,20};
 
 int[] NO = {36,37};
-int[] TO = {38,39};
+int[] TS = {38,39};
 int[] FLO = {26,27,28};
+int[] FK = {96,97};
+int[] EULE = {7,8,9,10};
 
 #include <Adafruit_NeoPixel.h>
 #ifdef __AVR__
@@ -255,9 +263,10 @@ void loop() {
 
 
 void displayContent(int[] leds)  {
-  for (led l : leds) {
+  for (int l : leds) {
     leuchten(l);
   }
+  pixels.show();
 }
 
 void btCheck() {
@@ -302,12 +311,16 @@ void btCheck() {
     default: brightness = 60; //standard
       break;
     }
+
+
 }
 
 void draw(int[] leds) {
+  pixels.clear();
   for(int i : leds) {
     pixel.setPixelColor(i, pixelColor(brightness,brightness,brightness));
   }
+  pixel.show();
 }
 
 void leuchten(int n) {
@@ -343,77 +356,45 @@ void leuchten(int n) {
       break;
   }
 
-int[] EULE = {7,8,9,10};
-
-  if (btVal == 'a') { //flo
-    pixels.clear();
-
-  }
 
 
-  if (btVal == 'n') { //noah
-    pixels.clear();
+  if (btVal == 'a') draw(FLO);
 
-  }
+
+  if (btVal == 'n') draw(NO);
+
+  if (btVal == 't') draw(TS);
 
   if (btVal == 'N') {
-    pixels.clear();
-
-    pixels.show();
+    draw(N);
     delay(1000);
-    pixels.clear();
-
-    pixels.show();
+    draw(O);
     delay(1000);
-    pixels.clear();
-
-    pixels.show();
+    draw(A);
     delay(1000);
-    pixels.clear();
-
-    pixels.show();
+    draw(H);
     delay(1000);
     pixels.clear();
   }
-
-  if (btVal == 't') { //thommy
-    pixels.clear();
-
-  }
-
-
 
   if (btVal == 'E') { //elena
-    pixels.clear();
-
-    pixels.show();
+    draw(E);
     delay(1000);
-    pixels.clear();
-
-    pixels.show();
+    draw(L);
     delay(1000);
-    pixels.clear();
-    //E
-    pixels.show();
+    draw(E);
     delay(1000);
-    pixels.clear();
-    //N
-    pixels.show();
+    draw(N);
     delay(1000);
-    pixels.clear();
-    //A
-    pixels.show();
+    draw(A);
     delay(1000);
-    pixels.clear();
-    pixels.show();
-    delay(1000);
+    TODO HERZ impl
+    //draw(HERZ);
+    //delay(1000);
     pixels.clear();
   }
 
-  if (btVal == 'f') { //felix
-    pixels.clear();
-    int FK = {96,97};
-  }
+  if (btVal == 'f') draw(FK);
 
   if (btVal == 'h') { //herz
     pixels.clear();
@@ -460,8 +441,6 @@ int[] EULE = {7,8,9,10};
 
     }
   */
-  pixels.show();  //angesteuerte LEDs werden eingeschaltet
-
 }
 
 void colorWipe(uint32_t c, uint8_t wait) {
