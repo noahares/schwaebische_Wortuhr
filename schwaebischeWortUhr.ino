@@ -8,10 +8,8 @@ int clearVal = 0; //Variable zum aktualisieren der Uhr
 char btVal; //Empfangener Bluetooth-Code
 int brightCount = 0; //Helligkeitsstufen
 int brightness = 0; //Helligkeit
+int color = 0; //Variable für Farbe
 
-int color; //Variable für Farbe
-
-<<<<<<< HEAD
 //eeprom adressen
 int colAddr = 0;
 int brightAddr = 0;
@@ -19,8 +17,8 @@ int brightAddr = 0;
 /*
 all hours
 */
-int[] oise ={62,63,64,65}
-int[] zwoie = {62,63,64,65};
+int[] oise = {62,63,64,65}
+int[] zwoie = {66,67,68,69,70};
 int[] dreie = {83,84,85,86,87};
 int[] viere = {100,101,102,103,99};
 int[] fuenfe = {49,50,51,52,53};
@@ -44,30 +42,27 @@ int[] halb = {44,45,46,47};
 int[] dreiviertl = {12,13,14,15,16,17,18,19,20,21};
 
 //es isch
-[] int start = {0,1,2,3,4,5,6};
+int[] start = {0,1,2,3,4,5,6};
 
-=======
-int colAddr = 0;
-int brightAddr = 0;
+int[] A = {108,89,85,68,62,47,39,26,16,28,37,51,58,74,73,72,71,70,69,79,97,100};
+int[] E = {107,106,105,104,103,102,101,90,85,68,63,46,41,24,19,18,17,16,15,14,13,62,61,60,59,58,57};
+int[] H = {107,90,85,68,63,46,41,24,19,13,30,35,52,57,74,79,96,101,57,58,59,60,61,62,63};
+int[] L = {90,85,86,63,46,41,24,19,107,106,105,104,103,102,101};
+int[] N = {108.89,86,67,64,45,42,23,20,24,40,48,60,72,80,96,100,97,78,75,56,53,34,31,12};
+int[] O = {17,25,41,45,64,67,85,91,105,104,103,95,79,75,56,53,35,29,15,16};
 
->>>>>>> master
+int[] NO = {36,37};
+int[] TO = {38,39};
+int[] FLO = {26,27,28};
+
 #include <Adafruit_NeoPixel.h>
 #ifdef __AVR__
 #include <avr/power.h>
 #endif
 
 #define PIN            9 //Pin des LED-Bands
-<<<<<<< HEAD
 #define NUMPIXELS      114 //Anzahl der LEDs
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800); //Inizialisierung der NeoPixels Bibliothek
-=======
-
-#define NUMPIXELS      114 //Anzahl der LEDs
-
-
-Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800); //Inizialisierung der NeoPixels Bibliothek
-
->>>>>>> master
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMPIXELS, PIN , NEO_GRB + NEO_KHZ800);
 
 #define DS3231_I2C_ADDRESS 0x68 //Adresse zur Kommunikation mit RTC
@@ -79,14 +74,7 @@ int minutes; //Minutenvariable
 
 
 //Start-Uhrzeit des RTCs inizialisieren
-<<<<<<< HEAD
 void setDS3231time(byte second, byte minute, byte hour) {
-=======
-void setDS3231time(byte second,
-                   byte minute,
-                   byte hour)
-{
->>>>>>> master
   Wire.beginTransmission(DS3231_I2C_ADDRESS);
   Wire.write(0);
   Wire.write(decToBcd(second)); //sekunden einstellen
@@ -96,32 +84,16 @@ void setDS3231time(byte second,
 }
 
 //konvertiert Dezimalcode in binären Code
-<<<<<<< HEAD
 byte decToBcd(byte val) {
-=======
-byte decToBcd(byte val)
-{
->>>>>>> master
   return ( (val / 10 * 16) + (val % 10) );
 }
 
 //konvertiert binären Code in Dezimalcode
-<<<<<<< HEAD
 byte bcdToDec(byte val) {
   return ( (val / 16 * 10) + (val % 16) );
 }
 
 void EEPROMWriteCol(int colAddr, int color) { //store a 2 byte integer at the eeprom at the specified address and address + 1
-=======
-byte bcdToDec(byte val)
-{
-  return ( (val / 16 * 10) + (val % 16) );
-}
-
-void EEPROMWriteCol(int colAddr, int color) //store a 2 byte integer at the eeprom at the specified address and address + 1
-
-{
->>>>>>> master
   byte lowByte = ((color >> 0) & 0xFF);
   byte highByte = ((color >> 8) & 0xFF);
 
@@ -129,25 +101,14 @@ void EEPROMWriteCol(int colAddr, int color) //store a 2 byte integer at the eepr
   EEPROM.update(colAddr + 1, highByte);
 }
 
-<<<<<<< HEAD
 unsigned int EEPROMReadCol(int colAddr) { //read a 2 byte integer from the eeprom at the specified address and address + 1
-=======
-unsigned int EEPROMReadCol(int colAddr) //read a 2 byte integer from the eeprom at the specified address and address + 1
-
-{
->>>>>>> master
   byte lowByte = EEPROM.read(colAddr);
   byte highByte = EEPROM.read(colAddr + 1);
 
   return ((lowByte << 0) & 0xFF) + ((highByte << 8) & 0xFF00);
 }
 
-<<<<<<< HEAD
 void EEPROMWriteBright(int brightAddr, int brightCount) { //store a 2 byte integer at the eeprom at the specified address + 2 and address + 3
-=======
-void EEPROMWriteBright(int brightAddr, int brightCount) //store a 2 byte integer at the eeprom at the specified address + 2 and address + 3
-{
->>>>>>> master
   byte lowByte = ((brightCount >> 0) & 0xFF);
   byte highByte = ((brightCount >> 8) & 0xFF);
 
@@ -155,24 +116,13 @@ void EEPROMWriteBright(int brightAddr, int brightCount) //store a 2 byte integer
   EEPROM.update(brightAddr + 3, highByte);
 }
 
-<<<<<<< HEAD
 unsigned int EEPROMReadBright(int brightAddr) { // read a 2 byte integer from the eeprom at the specified address + 2 and address + 3
-=======
-unsigned int EEPROMReadBright(int brightAddr) // read a 2 byte integer from the eeprom at the specified address + 2 and address + 3
-
-{
->>>>>>> master
   byte lowByte = EEPROM.read(brightAddr + 2);
   byte highByte = EEPROM.read(brightAddr + 3);
 
   return ((lowByte << 0) & 0xFF) + ((highByte << 8) & 0xFF00);
 }
-<<<<<<< HEAD
 void setup() {
-=======
-void setup()
-{
->>>>>>> master
   pixels.begin(); //LEDs werden eingebunden
   strip.begin();
   Wire.begin(); //kommunikation wird eingerichtet
@@ -185,14 +135,7 @@ void setup()
   // setDS3231time(39,03,12);
 }
 
-<<<<<<< HEAD
 void readDS3231time(byte *second, byte *minute, byte *hour) {
-=======
-void readDS3231time(byte *second,
-                    byte *minute,
-                    byte *hour)
-{
->>>>>>> master
   Wire.beginTransmission(DS3231_I2C_ADDRESS);
   Wire.write(0); // gibt O Uhr vor
   Wire.endTransmission();
@@ -203,15 +146,12 @@ void readDS3231time(byte *second,
   *minute = bcdToDec(Wire.read());
   *hour = bcdToDec(Wire.read() & 0x3f);
 }
-<<<<<<< HEAD
 
 void displayTime() {
-=======
-void displayTime()
-{
->>>>>>> master
   byte second, minute, hour;
   readDS3231time(&second, &minute, &hour); //RTC wird ausgelesen
+
+  btCkeck();
 
   //Minuten und Stunden werden in Decimalcode umgewandet und an den seriellen Monitor geschickt
   minutes = (minute) - 0;
@@ -228,31 +168,23 @@ void displayTime()
     clearVal = 1; //clearVal wird auf 1 gesetzt, damit das Display bei vollen 5min nicht schnell blinkt, da es immer wider aktualisiert wird
   }
   if (eckMin == 1) {
-    leuchten(111); //die Funktion leuchten wird mit dem Parameter n aufgerufen; n steht fr die LED di leuchten soll
+    displayContent({111});
     clearVal = 0; //clearVal wird für den nähsten Zyklus wieder auf 0 gesetzt
   }
   if (eckMin == 2) {
-    leuchten(111);
-    leuchten(112);
+    displayContent({111,112});
   }
   if (eckMin == 3) {
-    leuchten(111);
-    leuchten(113);
-    leuchten(112);
+    displayContent({111,112,113});
   }
   if (eckMin == 4) {
-    leuchten(110);
-    leuchten(111);
-    leuchten(112);
-    leuchten(113);
+    displayContent({110,111,112,113});
   }
 
-<<<<<<< HEAD
   displayContent(start);
 
   //Zeitabschnitte zum Anzeigen von viertl, halb, dreiviertl, zehn, fünf, vor und nach werden definiert
   if (minutes >= 15 && minutes < 20) displayContent(viertl);
-
   if (minutes >= 10 && minutes < 15) {
     displayContent(zehn);
     displayContent(nach);
@@ -261,105 +193,39 @@ void displayTime()
     displayContent(fuenf);
     displayContent(nach);
   }
-
   if (minutes >= 30 && minutes < 35) displayContent(halb);
-
   if (minutes >= 20 && minutes < 25) {
     displayContent(zehn);
     displayContent(vor);
     displayContent(halb);
   }
-
   if (minutes >= 25 && minutes < 30) {
     displayContent(fuenf);
     displayContent(vor);
     displayContent(halb);
   }
-
   if (minutes >= 40 && minutes < 45) {
     displayContent(zehn);
     displayContent(nach);
     displayContent(halb);
   }
-
   if (minutes >= 35 && minutes < 40) {
     displayContent(fuenf);
     displayContent(nach);
     displayContent(halb);
   }
-
   if (minutes >= 45 && minutes < 50) displayContent(dreiviertl);
-
   if (minutes >= 50 && minutes < 55) {
     displayContent(zehn);
     displayContent(vor);
   }
-
   if (minutes >= 55 && minutes < 60) {
     displayContent(fuenf);
     displayContent(vor);
-=======
-  leuchten(0);
-  leuchten(1);
-  leuchten(3);
-  leuchten(4);
-  leuchten(5);
-  leuchten(6);
-
-  //Zeitabschnitte zum Anzeigen von viertl, halb, dreiviertl, zehn, fünf, vor und nach werden definiert
-  if (minutes >= 15 && minutes < 20) viertl();
-
-  if (minutes >= 10 && minutes < 15) {
-    zehn();
-    nach();
-  }
-  if (minutes >= 5 && minutes < 10) {
-    fuenf();
-    nach();
-  }
-
-  if (minutes >= 30 && minutes < 35) halb();
-
-  if (minutes >= 20 && minutes < 25) {
-    zehn();
-    vor();
-    halb();
-  }
-
-  if (minutes >= 25 && minutes < 30) {
-    fuenf();
-    vor();
-    halb();
-  }
-
-  if (minutes >= 40 && minutes < 45) {
-    zehn();
-    nach();
-    halb();
-  }
-
-  if (minutes >= 35 && minutes < 40) {
-    fuenf();
-    nach();
-    halb();
-  }
-
-  if (minutes >= 45 && minutes < 50) dreiviertl();
-
-  if (minutes >= 50 && minutes < 55) {
-    zehn();
-    vor();
-  }
-
-  if (minutes >= 55 && minutes < 60) {
-    fuenf();
-    vor();
->>>>>>> master
   }
 
   //Stunden-Anzeige wird zugewiesen
   if (hours > 12) hours = hours - 12;
-<<<<<<< HEAD
   if (hours == 0) displayContent(zwoelfe);
   if (hours == 1) displayContent(oise);
   if (hours == 2) displayContent(zwoie);
@@ -373,21 +239,6 @@ void displayTime()
   if (hours == 10) displayContent(zehne);
   if (hours == 11) displayContent(elfe);
   if (hours == 12) displayContent(zwoelfe);
-=======
-  if (hours == 0) zwoelfe();
-  if (hours == 1) oise();
-  if (hours == 2) zwoie();
-  if (hours == 3) dreie();
-  if (hours == 4) viere();
-  if (hours == 5) fuenfe();
-  if (hours == 6) sechse();
-  if (hours == 7) siebne();
-  if (hours == 8) achte();
-  if (hours == 9) neune();
-  if (hours == 10) zehne();
-  if (hours == 11) elfe();
-  if (hours == 12) zwoelfe();
->>>>>>> master
 
   //optional zur Ausgabe von Sekunden auf dem seriellen Monitor
   /*Serial.print(":");
@@ -398,7 +249,6 @@ void displayTime()
     Serial.println(second, DEC);*/
 
 }
-<<<<<<< HEAD
 void loop() {
   t.update(); //Update-Funktion wird bei jeden loop ausgeführt
 }
@@ -410,169 +260,7 @@ void displayContent(int[] leds)  {
   }
 }
 
-=======
-void loop()
-{
-  t.update(); //Update-Funktion wird bei jeden loop ausgeführt
-}
-
-//zuweisen der LEDs, die für die einzelnen Wörter leuchten sollen
-void vor() {
-  leuchten(33);
-  leuchten(34);
-  leuchten(35);
-}
-
-void nach() {
-  leuchten(40);
-  leuchten(41);
-  leuchten(42);
-  leuchten(43);
-}
-
-void fuenf() {
-  leuchten(29);
-  leuchten(30);
-  leuchten(31);
-  leuchten(32);
-}
-
-void zehn() {
-  leuchten(22);
-  leuchten(23);
-  leuchten(24);
-  leuchten(25);
-}
-
-void viertl() {
-  leuchten(12);
-  leuchten(13);
-  leuchten(14);
-  leuchten(15);
-  leuchten(16);
-  leuchten(17);
-}
-
-void halb() {
-  leuchten(44);
-  leuchten(45);
-  leuchten(46);
-  leuchten(47);
-}
-
-void dreiviertl() {
-  leuchten(12);
-  leuchten(13);
-  leuchten(14);
-  leuchten(15);
-  leuchten(16);
-  leuchten(17);
-  leuchten(18);
-  leuchten(19);
-  leuchten(20);
-  leuchten(21);
-}
-
-void oise() {
-  leuchten(62);
-  leuchten(63);
-  leuchten(64);
-  leuchten(65);
-}
-
-void zwoie() {
-  leuchten(66);
-  leuchten(67);
-  leuchten(68);
-  leuchten(69);
-  leuchten(70);
-}
-
-void dreie() {
-  leuchten(83);
-  leuchten(84);
-  leuchten(85);
-  leuchten(86);
-  leuchten(87);
-}
-
-void viere() {
-  leuchten(100);
-  leuchten(101);
-  leuchten(102);
-  leuchten(103);
-  leuchten(99);
-}
-
-void fuenfe() {
-  leuchten(49);
-  leuchten(50);
-  leuchten(51);
-  leuchten(52);
-  leuchten(53);
-}
-
-void sechse() {
-  leuchten(58);
-  leuchten(59);
-  leuchten(60);
-  leuchten(61);
-  leuchten(62);
-  leuchten(63);
-}
-
-void siebne() {
-  leuchten(104);
-  leuchten(105);
-  leuchten(106);
-  leuchten(107);
-  leuchten(108);
-  leuchten(109);
-}
-
-void achte() {
-  leuchten(71);
-  leuchten(72);
-  leuchten(73);
-  leuchten(74);
-  leuchten(75);
-}
-
-void neune() {
-  leuchten(91);
-  leuchten(92);
-  leuchten(93);
-  leuchten(94);
-  leuchten(95);
-}
-
-void zehne() {
-  leuchten(88);
-  leuchten(89);
-  leuchten(90);
-  leuchten(91);
-  leuchten(92);
-}
-
-void elfe() {
-  leuchten(55);
-  leuchten(56);
-  leuchten(57);
-  leuchten(58);
-}
-
-void zwoelfe() {
-  leuchten(77);
-  leuchten(78);
-  leuchten(79);
-  leuchten(80);
-  leuchten(81);
-  leuchten(82);
-}
-
-
->>>>>>> master
-void leuchten(int n) {
+void btCheck() {
   color = EEPROMReadCol(colAddr);
   brightCount = EEPROMReadBright(brightAddr);
   if (Serial1.available()) //wenn Bluetooth-Signal empfangen...
@@ -590,89 +278,14 @@ void leuchten(int n) {
   if (btVal == '6') color = 6;
   if (btVal == '7') color = 7;
   if (btVal == '8') color = 8;
-
   EEPROMWriteCol(colAddr, color);
-
-
-  //ausgehend von der Farbe werden alle momentan aktiven LEDs auf diese Farbe umprogrammiert
-  switch (color) {
-    case 1:
-      pixels.setPixelColor(n, pixels.Color(0, 0, brightness)); //blau
-      break;
-<<<<<<< HEAD
-    case 2:
-      pixels.setPixelColor(n, pixels.Color(brightness, 0, 0)); //rot
-      break;
-    case 3:
-      pixels.setPixelColor(n, pixels.Color(0, brightness, 0)); //grün
-      break;
-    case 4:
-      pixels.setPixelColor(n, pixels.Color(brightness, brightness, 0)); //gelb
-      break;
-    case 5:
-      pixels.setPixelColor(n, pixels.Color(brightness, 0, brightness)); //lila
-      break;
-    case 6:
-      pixels.setPixelColor(n, pixels.Color(0, brightness, brightness)); //hellblau
-      break;
-    case 7:
-      pixels.setPixelColor(n, pixels.Color(brightness, brightness, brightness)); //weiss
-      break;
-    case 8:
-      pixels.setPixelColor(n, pixels.Color(random(0, brightness), random(0, brightness), random(0, brightness))); //strobo
-      break;
-    default:
-      pixels.setPixelColor(n, pixels.Color(0, 0, brightness)); //wenn kein Signal passt, dann blau
-      break;
-=======
-
-    case 2:
-      pixels.setPixelColor(n, pixels.Color(brightness, 0, 0)); //rot
-      break;
-
-    case 3:
-      pixels.setPixelColor(n, pixels.Color(0, brightness, 0)); //grün
-      break;
-
-    case 4:
-      pixels.setPixelColor(n, pixels.Color(brightness, brightness, 0)); //gelb
-      break;
-
-    case 5:
-      pixels.setPixelColor(n, pixels.Color(brightness, 0, brightness)); //lila
-      break;
-
-    case 6:
-      pixels.setPixelColor(n, pixels.Color(0, brightness, brightness)); //hellblau
-      break;
-
-    case 7:
-      pixels.setPixelColor(n, pixels.Color(brightness, brightness, brightness)); //weiss
-      break;
-
-    case 8:
-      pixels.setPixelColor(n, pixels.Color(random(0, brightness), random(0, brightness), random(0, brightness))); //strobo
-      break;
-
-    default:
-      pixels.setPixelColor(n, pixels.Color(0, 0, brightness)); //wenn kein Signal passt, dann blau
-      break;
-
->>>>>>> master
-  }
-
-
   if (btVal == '0') {
     brightCount++; //zähler für Heligkeitsstufen wird erhöht
     btVal = '9'; //beliebige unbenutzte Zahl, die verhindert, dass mehrere Helligkeitsstufen au einmal durchlaufen werden
     EEPROMWriteBright(brightAddr, brightCount);
   }
 
-<<<<<<< HEAD
   //Heligkeit wird je nach Rest auf Helligkeitszähler und 6 verändert
-=======
-  //Heligkeit wird je nach Rest auf elligkeitszähler und 6 verändert
->>>>>>> master
   switch (brightCount % 6) {
     case 0: brightness = 60;
       break;
@@ -688,138 +301,76 @@ void leuchten(int n) {
       break;
     default: brightness = 60; //standard
       break;
+    }
+}
+
+void draw(int[] leds) {
+  for(int i : leds) {
+    pixel.setPixelColor(i, pixelColor(brightness,brightness,brightness));
+  }
+}
+
+void leuchten(int n) {
+
+  //ausgehend von der Farbe werden alle momentan aktiven LEDs auf diese Farbe umprogrammiert
+  switch (color) {
+    case 1:
+      pixels.setPixelColor(n, pixels.Color(0, 0, brightness)); //blau
+      break;
+    case 2:
+      pixels.setPixelColor(n, pixels.Color(brightness, 0, 0)); //rot
+      break;
+    case 3:
+      pixels.setPixelColor(n, pixels.Color(0, brightness, 0)); //grün
+      break;
+    case 4:
+      pixels.setPixelColor(n, pixels.Color(brightness, brightness, 0)); //gelb
+      break;
+    case 5:
+      pixels.setPixelColor(n, pixels.Color(brightness, 0, brightness)); //lila
+      break;
+    case 6:
+      pixels.setPixelColor(n, pixels.Color(0, brightness, brightness)); //hellblau
+      break;
+    case 7:
+      pixels.setPixelColor(n, pixels.Color(brightness, brightness, brightness)); //weiss
+      break;
+    case 8:
+      pixels.setPixelColor(n, pixels.Color(random(0, brightness), random(0, brightness), random(0, brightness))); //strobo
+      break;
+    default:
+      pixels.setPixelColor(n, pixels.Color(0, 0, brightness)); //wenn kein Signal passt, dann blau
+      break;
   }
 
-<<<<<<< HEAD
-=======
+int[] EULE = {7,8,9,10};
 
-
->>>>>>> master
   if (btVal == 'a') { //flo
     pixels.clear();
-    pixels.setPixelColor(7, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(8, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(9, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(10, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(26, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(27, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(28, pixels.Color(brightness, brightness, brightness));
+
   }
 
 
   if (btVal == 'n') { //noah
     pixels.clear();
-    pixels.setPixelColor(7, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(8, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(9, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(10, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(36, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(37, pixels.Color(brightness, brightness, brightness));
+
   }
 
   if (btVal == 'N') {
     pixels.clear();
-    pixels.setPixelColor(108, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(89, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(86, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(67, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(64, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(45, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(42, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(23, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(20, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(24, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(40, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(48, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(60, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(72, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(80, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(96, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(100, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(97, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(78, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(75, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(56, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(53, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(34, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(31, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(12, pixels.Color(brightness, brightness, brightness));
+
     pixels.show();
     delay(1000);
     pixels.clear();
-    pixels.setPixelColor(17, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(25, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(41, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(45, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(64, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(67, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(85, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(91, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(105, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(104, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(103, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(95, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(79, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(75, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(56, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(53, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(35, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(29, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(15, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(16, pixels.Color(brightness, brightness, brightness));
+
     pixels.show();
     delay(1000);
     pixels.clear();
-    pixels.setPixelColor(108, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(89, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(85, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(68, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(62, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(47, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(39, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(26, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(16, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(28, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(37, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(51, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(58, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(74, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(73, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(72, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(71, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(70, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(69, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(79, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(97, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(100, pixels.Color(brightness, brightness, brightness));
+
     pixels.show();
     delay(1000);
     pixels.clear();
-    pixels.setPixelColor(107, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(90, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(85, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(68, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(63, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(46, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(41, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(24, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(19, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(13, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(30, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(35, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(52, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(57, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(74, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(79, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(96, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(101, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(57, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(58, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(59, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(60, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(61, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(62, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(63, pixels.Color(brightness, brightness, brightness));
+
     pixels.show();
     delay(1000);
     pixels.clear();
@@ -827,171 +378,33 @@ void leuchten(int n) {
 
   if (btVal == 't') { //thommy
     pixels.clear();
-    pixels.setPixelColor(7, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(8, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(9, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(10, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(38, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(39, pixels.Color(brightness, brightness, brightness));
+
   }
 
 
 
   if (btVal == 'E') { //elena
     pixels.clear();
-    pixels.setPixelColor(107, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(106, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(105, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(104, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(103, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(102, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(101, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(90, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(85, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(68, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(63, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(46, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(41, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(24, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(19, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(18, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(17, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(16, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(15, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(14, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(13, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(62, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(61, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(60, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(59, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(58, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(57, pixels.Color(brightness, brightness, brightness));
+
     pixels.show();
     delay(1000);
     pixels.clear();
-    pixels.setPixelColor(107, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(90, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(85, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(68, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(63, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(46, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(41, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(24, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(19, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(106, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(105, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(104, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(103, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(102, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(101, pixels.Color(brightness, brightness, brightness));
+
     pixels.show();
     delay(1000);
     pixels.clear();
-    pixels.setPixelColor(107, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(106, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(105, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(104, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(103, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(102, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(101, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(90, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(85, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(68, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(63, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(46, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(41, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(24, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(19, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(18, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(17, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(16, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(15, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(14, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(13, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(62, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(61, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(60, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(59, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(58, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(57, pixels.Color(brightness, brightness, brightness));
+    //E
     pixels.show();
     delay(1000);
     pixels.clear();
-    pixels.setPixelColor(108, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(89, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(86, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(67, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(64, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(45, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(42, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(23, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(20, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(24, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(40, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(48, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(60, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(72, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(80, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(96, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(100, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(97, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(78, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(75, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(56, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(53, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(34, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(31, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(12, pixels.Color(brightness, brightness, brightness));
+    //N
     pixels.show();
     delay(1000);
     pixels.clear();
-    pixels.setPixelColor(108, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(89, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(85, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(68, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(62, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(47, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(39, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(26, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(16, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(28, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(37, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(51, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(58, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(74, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(73, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(72, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(71, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(70, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(69, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(79, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(97, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(100, pixels.Color(brightness, brightness, brightness));
+    //A
     pixels.show();
     delay(1000);
     pixels.clear();
-    pixels.setPixelColor(104, pixels.Color(brightness, 0, 0));
-    pixels.setPixelColor(94, pixels.Color(brightness, 0, 0));
-    pixels.setPixelColor(92, pixels.Color(brightness, 0, 0));
-    pixels.setPixelColor(80, pixels.Color(brightness, 0, 0));
-    pixels.setPixelColor(84, pixels.Color(brightness, 0, 0));
-    pixels.setPixelColor(74, pixels.Color(brightness, 0, 0));
-    pixels.setPixelColor(68, pixels.Color(brightness, 0, 0));
-    pixels.setPixelColor(56, pixels.Color(brightness, 0, 0));
-    pixels.setPixelColor(64, pixels.Color(brightness, 0, 0));
-    pixels.setPixelColor(54, pixels.Color(brightness, 0, 0));
-    pixels.setPixelColor(44, pixels.Color(brightness, 0, 0));
-    pixels.setPixelColor(43, pixels.Color(brightness, 0, 0));
-    pixels.setPixelColor(33, pixels.Color(brightness, 0, 0));
-    pixels.setPixelColor(31, pixels.Color(brightness, 0, 0));
-    pixels.setPixelColor(23, pixels.Color(brightness, 0, 0));
-    pixels.setPixelColor(38, pixels.Color(brightness, 0, 0));
-    pixels.setPixelColor(28, pixels.Color(brightness, 0, 0));
-    pixels.setPixelColor(26, pixels.Color(brightness, 0, 0));
-    pixels.setPixelColor(14, pixels.Color(brightness, 0, 0));
-    pixels.setPixelColor(13, pixels.Color(brightness, 0, 0));
-    pixels.setPixelColor(18, pixels.Color(brightness, 0, 0));
-    pixels.setPixelColor(19, pixels.Color(brightness, 0, 0));
     pixels.show();
     delay(1000);
     pixels.clear();
@@ -999,12 +412,7 @@ void leuchten(int n) {
 
   if (btVal == 'f') { //felix
     pixels.clear();
-    pixels.setPixelColor(7, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(8, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(9, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(10, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(96, pixels.Color(brightness, brightness, brightness));
-    pixels.setPixelColor(97, pixels.Color(brightness, brightness, brightness));
+    int FK = {96,97};
   }
 
   if (btVal == 'h') { //herz
@@ -1106,8 +514,3 @@ start:
   WheelPos -= 170;
   return strip.Color(WheelPos*3, 255 - WheelPos*3, 0);
   }*/
-<<<<<<< HEAD
-=======
-
-
->>>>>>> master
