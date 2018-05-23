@@ -17,51 +17,57 @@ int brightAddr = 0;
 /*
 all hours
 */
-int[] oise = {62,63,64,65}
-int[] zwoie = {66,67,68,69,70};
-int[] dreie = {83,84,85,86,87};
-int[] viere = {100,101,102,103,99};
-int[] fuenfe = {49,50,51,52,53};
-int[] sechse = {58,59,60,61,62,63};
-int[] siebne = {104,105,106,107,108,109};
-int[] achte = {71,72,73,74,75};
-int[] neune = {91,92,93,94,95};
-int[] zehne = {88,89,90,91,92};
-int[] elfe = {55,56,57,58};
-int[] zwoelfe = {77,78,79,80,81,82};
+int oise[] = {62,63,64,65};
+int zwoie[] = {66,67,68,69,70};
+int dreie[] = {83,84,85,86,87};
+int viere[] = {100,101,102,103,99};
+int fuenfe[] = {49,50,51,52,53};
+int sechse[] = {58,59,60,61,62,63};
+int siebne[] = {104,105,106,107,108,109};
+int achte[] = {71,72,73,74,75};
+int neune[] = {91,92,93,94,95};
+int zehne[] = {88,89,90,91,92};
+int elfe[] = {55,56,57,58};
+int zwoelfe[] = {77,78,79,80,81,82};
 
 /*
 all parts of an hour
 */
-int[] vor = {33,34,35};
-int[] nach = {40,41,42,43};
-int[] fuenf = {29,30,31,32}
-int[] zehn = {22,23,24,25};
-int[] viertl = {12,13,14,15,16,17};
-int[] halb = {44,45,46,47};
-int[] dreiviertl = {12,13,14,15,16,17,18,19,20,21};
+int vor[] = {33,34,35};
+int nach[] = {40,41,42,43};
+int fuenf[] = {29,30,31,32};
+int zehn[] = {22,23,24,25};
+int viertl[] = {12,13,14,15,16,17};
+int halb[] = {44,45,46,47};
+int dreiviertl[] = {12,13,14,15,16,17,18,19,20,21};
+
+//eckminuten
+int PLUS1[] = {111};
+int PLUS2[] = {111,112};
+int PLUS3[] = {111,112,113};
+int PLUS4[] = {110,111,112,113};
 
 //es isch
-int[] start = {0,1,2,3,4,5,6};
+int start[] = {0,1,2,3,4,5,6};
 
-int[] A = {108,89,85,68,62,47,39,26,16,28,37,51,58,74,73,72,71,70,69,79,97,100};
-int[] E = {107,106,105,104,103,102,101,90,85,68,63,46,41,24,19,18,17,16,15,14,13,62,61,60,59,58,57};
-int[] F = {107,90,85,68,63,46,41,24,19,18,17,16,15,14,13,62,61,60,59};
-int[] H = {107,90,85,68,63,46,41,24,19,13,30,35,52,57,74,79,96,101,57,58,59,60,61,62,63};
-int[] I = {104,93,82,71,90,49,38,27,16};
-int[] L = {90,85,86,63,46,41,24,19,107,106,105,104,103,102,101};
-int[] M = {108,89,86,67,64,45,42,23,20,24,40,48,60,50,36,30,12,31,34,53,56,75,78,97,100};
-int[] N = {108.89,86,67,64,45,42,23,20,24,40,48,60,72,80,96,100,97,78,75,56,53,34,31,12};
-int[] O = {17,25,41,45,64,67,85,91,105,104,103,95,79,75,56,53,35,29,15,16};
-int[] R = {107,90,85,68,63,46,41,24,19,18,17,16,15,14,30,34,52,58,59,60,61,62,72,80,96,100};
-int[] S = {108,107,106,105,104,103,102,96,78,74,58,59,60,61,62,46,42,24,18,17,16,15,14,13,12};
-int[] T = {104,93,82,71,90,49,38,27,16,15,14,13,12,17,18,19,20};
+int A[] = {108,89,85,68,62,47,39,26,16,28,37,51,58,74,73,72,71,70,69,79,97,100};
+int E[] = {107,106,105,104,103,102,101,90,85,68,63,46,41,24,19,18,17,16,15,14,13,62,61,60,59,58,57};
+int F[] = {107,90,85,68,63,46,41,24,19,18,17,16,15,14,13,62,61,60,59};
+int H[] = {107,90,85,68,63,46,41,24,19,13,30,35,52,57,74,79,96,101,57,58,59,60,61,62,63};
+int I[] = {104,93,82,71,90,49,38,27,16};
+int L[] = {90,85,86,63,46,41,24,19,107,106,105,104,103,102,101};
+int M[] = {108,89,86,67,64,45,42,23,20,24,40,48,60,50,36,30,12,31,34,53,56,75,78,97,100};
+int N[] = {108.89,86,67,64,45,42,23,20,24,40,48,60,72,80,96,100,97,78,75,56,53,34,31,12};
+int O[] = {17,25,41,45,64,67,85,91,105,104,103,95,79,75,56,53,35,29,15,16};
+int R[] = {107,90,85,68,63,46,41,24,19,18,17,16,15,14,30,34,52,58,59,60,61,62,72,80,96,100};
+int S[] = {108,107,106,105,104,103,102,96,78,74,58,59,60,61,62,46,42,24,18,17,16,15,14,13,12};
+int T[] = {104,93,82,71,90,49,38,27,16,15,14,13,12,17,18,19,20};
 
-int[] NO = {36,37};
-int[] TS = {38,39};
-int[] FLO = {26,27,28};
-int[] FK = {96,97};
-int[] EULE = {7,8,9,10};
+int NO[] = {36,37};
+int TS[] = {38,39};
+int FLO[] = {26,27,28};
+int FK[] = {96,97};
+int EULE[] = {7,8,9,10};
 
 #include <Adafruit_NeoPixel.h>
 #ifdef __AVR__
@@ -159,7 +165,7 @@ void displayTime() {
   byte second, minute, hour;
   readDS3231time(&second, &minute, &hour); //RTC wird ausgelesen
 
-  btCkeck();
+  btCheck();
 
   //Minuten und Stunden werden in Decimalcode umgewandet und an den seriellen Monitor geschickt
   minutes = (minute) - 0;
@@ -176,17 +182,17 @@ void displayTime() {
     clearVal = 1; //clearVal wird auf 1 gesetzt, damit das Display bei vollen 5min nicht schnell blinkt, da es immer wider aktualisiert wird
   }
   if (eckMin == 1) {
-    displayContent({111});
+    displayContent(PLUS1);
     clearVal = 0; //clearVal wird für den nähsten Zyklus wieder auf 0 gesetzt
   }
   if (eckMin == 2) {
-    displayContent({111,112});
+    displayContent(PLUS2);
   }
   if (eckMin == 3) {
-    displayContent({111,112,113});
+    displayContent(PLUS3);
   }
   if (eckMin == 4) {
-    displayContent({110,111,112,113});
+    displayContent(PLUS4);
   }
 
   displayContent(start);
@@ -262,8 +268,8 @@ void loop() {
 }
 
 
-void displayContent(int[] leds)  {
-  for (int l : leds) {
+void displayContent(int leds[])  {
+  for (int l = 0; l < sizeof(leds)/sizeof(int); l++) {
     leuchten(l);
   }
   pixels.show();
@@ -315,12 +321,12 @@ void btCheck() {
 
 }
 
-void draw(int[] leds) {
+void draw(int leds[]) {
   pixels.clear();
-  for(int i : leds) {
-    pixel.setPixelColor(i, pixelColor(brightness,brightness,brightness));
+  for(int l = 0; l < sizeof(leds)/sizeof(int); l++) {
+    pixels.setPixelColor(l, pixels.Color(brightness,brightness,brightness));
   }
-  pixel.show();
+  pixels.show();
 }
 
 void leuchten(int n) {
@@ -388,7 +394,7 @@ void leuchten(int n) {
     delay(1000);
     draw(A);
     delay(1000);
-    TODO HERZ impl
+    //TODO HERZ impl
     //draw(HERZ);
     //delay(1000);
     pixels.clear();
