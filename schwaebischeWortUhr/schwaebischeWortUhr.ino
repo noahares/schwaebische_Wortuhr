@@ -8,7 +8,7 @@ int clearVal = 0; //Variable zum aktualisieren der Uhr
 char btVal; //Empfangener Bluetooth-Code
 int brightCount = 0; //Helligkeitsstufen
 int brightness = 0; //Helligkeit
-int color = 0; //Variable für Farbe
+int color = 1; //Variable für Farbe
 
 //eeprom adressen
 int colAddr = 0;
