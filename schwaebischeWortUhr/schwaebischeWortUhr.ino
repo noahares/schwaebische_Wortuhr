@@ -48,7 +48,7 @@ int PLUS3[] = {111,112,113};
 int PLUS4[] = {110,111,112,113};
 
 //es isch
-int start[] = {0,1,2,3,4,5,6};
+int start[] = {0,1,3,4,5,6};
 
 int A[] = {108,89,85,68,62,47,39,26,16,28,37,51,58,74,73,72,71,70,69,79,97,100};
 int E[] = {107,106,105,104,103,102,101,90,85,68,63,46,41,24,19,18,17,16,15,14,13,62,61,60,59,58,57};
@@ -175,84 +175,82 @@ void displayTime() {
   Serial.println(minutes);
   if (minutes < 15) hours = (hour) - 0;
   else hours = ((hour) - 0) + 1;
-
   eckMin = minutes % 5; //Eckminuten werden aus Minuten geteilt durch 5 berechnet; der ganzzahlige Rest liegt somit zwischen 0 und 4
   if (eckMin == 0 && clearVal == 0) {
     pixels.clear(); //immer wenn eine neue 5min Phase beginnt, wird die Anzeige der Uhr aktualisiert
     clearVal = 1; //clearVal wird auf 1 gesetzt, damit das Display bei vollen 5min nicht schnell blinkt, da es immer wider aktualisiert wird
   }
   if (eckMin == 1) {
-    displayContent(PLUS1);
+    displayContent(PLUS1, sizeof(PLUS1));
     clearVal = 0; //clearVal wird für den nähsten Zyklus wieder auf 0 gesetzt
   }
   if (eckMin == 2) {
-    displayContent(PLUS2);
+    displayContent(PLUS2, sizeof(PLUS2));
   }
   if (eckMin == 3) {
-    displayContent(PLUS3);
+    displayContent(PLUS3, sizeof(PLUS3));
   }
   if (eckMin == 4) {
-    displayContent(PLUS4);
+    displayContent(PLUS4, sizeof(PLUS4));
   }
 
-  displayContent(start);
+  displayContent(start, sizeof(start));
 
   //Zeitabschnitte zum Anzeigen von viertl, halb, dreiviertl, zehn, fünf, vor und nach werden definiert
-  if (minutes >= 15 && minutes < 20) displayContent(viertl);
+  if (minutes >= 15 && minutes < 20) displayContent(viertl, sizeof(viertl));
   if (minutes >= 10 && minutes < 15) {
-    displayContent(zehn);
-    displayContent(nach);
+    displayContent(zehn, sizeof(zehn));
+    displayContent(nach, sizeof(nach));
   }
   if (minutes >= 5 && minutes < 10) {
-    displayContent(fuenf);
-    displayContent(nach);
+    displayContent(fuenf, sizeof(fuenf));
+    displayContent(nach, sizeof(nach));
   }
-  if (minutes >= 30 && minutes < 35) displayContent(halb);
+  if (minutes >= 30 && minutes < 35) displayContent(halb, sizeof(halb));
   if (minutes >= 20 && minutes < 25) {
-    displayContent(zehn);
-    displayContent(vor);
-    displayContent(halb);
+    displayContent(zehn, sizeof(zehn));
+    displayContent(vor, sizeof(vor));
+    displayContent(halb, sizeof(halb));
   }
   if (minutes >= 25 && minutes < 30) {
-    displayContent(fuenf);
-    displayContent(vor);
-    displayContent(halb);
+    displayContent(fuenf, sizeof(fuenf));
+    displayContent(vor, sizeof(vor));
+    displayContent(halb, sizeof(halb));
   }
   if (minutes >= 40 && minutes < 45) {
-    displayContent(zehn);
-    displayContent(nach);
-    displayContent(halb);
+    displayContent(zehn, sizeof(zehn));
+    displayContent(nach, sizeof(nach));
+    displayContent(halb, sizeof(halb));
   }
   if (minutes >= 35 && minutes < 40) {
-    displayContent(fuenf);
-    displayContent(nach);
-    displayContent(halb);
+    displayContent(fuenf, sizeof(fuenf));
+    displayContent(nach, sizeof(nach));
+    displayContent(halb, sizeof(halb));
   }
-  if (minutes >= 45 && minutes < 50) displayContent(dreiviertl);
+  if (minutes >= 45 && minutes < 50) displayContent(dreiviertl, sizeof(dreiviertl));
   if (minutes >= 50 && minutes < 55) {
-    displayContent(zehn);
-    displayContent(vor);
+    displayContent(zehn, sizeof(zehn));
+    displayContent(vor, sizeof(vor));
   }
   if (minutes >= 55 && minutes < 60) {
-    displayContent(fuenf);
-    displayContent(vor);
+    displayContent(fuenf, sizeof(fuenf));
+    displayContent(vor, sizeof(vor));
   }
 
   //Stunden-Anzeige wird zugewiesen
   if (hours > 12) hours = hours - 12;
-  if (hours == 0) displayContent(zwoelfe);
-  if (hours == 1) displayContent(oise);
-  if (hours == 2) displayContent(zwoie);
-  if (hours == 3) displayContent(dreie);
-  if (hours == 4) displayContent(viere);
-  if (hours == 5) displayContent(fuenfe);
-  if (hours == 6) displayContent(sechse);
-  if (hours == 7) displayContent(siebne);
-  if (hours == 8) displayContent(achte);
-  if (hours == 9) displayContent(neune);
-  if (hours == 10) displayContent(zehne);
-  if (hours == 11) displayContent(elfe);
-  if (hours == 12) displayContent(zwoelfe);
+  if (hours == 1) displayContent(oise, sizeof(oise));
+  if (hours == 2) displayContent(zwoie, sizeof(zwoie));
+  if (hours == 3) displayContent(dreie, sizeof(dreie));
+  if (hours == 4) displayContent(viere, sizeof(viere));
+  if (hours == 5) displayContent(fuenfe, sizeof(fuenfe));
+  if (hours == 6) displayContent(sechse, sizeof(sechse));
+  if (hours == 7) displayContent(siebne, sizeof(siebne));
+  if (hours == 8) displayContent(achte, sizeof(achte));
+  if (hours == 9) displayContent(neune, sizeof(neune));
+  if (hours == 10) displayContent(zehne, sizeof(zehne));
+  if (hours == 11) displayContent(elfe, sizeof(elfe));
+  if (hours == 12 || hours == 0) displayContent(zwoelfe, sizeof(zwoelfe));
 
   //optional zur Ausgabe von Sekunden auf dem seriellen Monitor
   /*Serial.print(":");
@@ -267,10 +265,10 @@ void loop() {
   t.update(); //Update-Funktion wird bei jeden loop ausgeführt
 }
 
-
-void displayContent(int leds[])  {
-  for (int l = 0; l < sizeof(leds)/sizeof(int); l++) {
-    leuchten(l);
+void displayContent(int *leds, int size) {
+  for (int l = 0; l < size/sizeof(int); l++) {
+    //Serial.println(leds[l]);
+    leuchten(leds[l]);
   }
   pixels.show();
 }
@@ -321,10 +319,10 @@ void btCheck() {
 
 }
 
-void draw(int leds[]) {
+void draw(int *leds, int size) {
   pixels.clear();
-  for(int l = 0; l < sizeof(leds)/sizeof(int); l++) {
-    pixels.setPixelColor(l, pixels.Color(brightness,brightness,brightness));
+  for(int l = 0; l < size/sizeof(int); l++) {
+    pixels.setPixelColor(leds[l], pixels.Color(brightness,brightness,brightness));
   }
   pixels.show();
 }
@@ -364,35 +362,35 @@ void leuchten(int n) {
 
 
 
-  if (btVal == 'a') draw(FLO);
+  if (btVal == 'a') draw(FLO, sizeof(FLO));
 
 
-  if (btVal == 'n') draw(NO);
+  if (btVal == 'n') draw(NO, sizeof(NO));
 
-  if (btVal == 't') draw(TS);
+  if (btVal == 't') draw(TS, sizeof(TS));
 
   if (btVal == 'N') {
-    draw(N);
+    draw(N, sizeof(N));
     delay(1000);
-    draw(O);
+    draw(O, sizeof(O));
     delay(1000);
-    draw(A);
+    draw(A, sizeof(A));
     delay(1000);
-    draw(H);
+    draw(H, sizeof(H));
     delay(1000);
     pixels.clear();
   }
 
   if (btVal == 'E') { //elena
-    draw(E);
+    draw(E, sizeof(E));
     delay(1000);
-    draw(L);
+    draw(L, sizeof(L));
     delay(1000);
-    draw(E);
+    draw(E, sizeof(E));
     delay(1000);
-    draw(N);
+    draw(N, sizeof(N));
     delay(1000);
-    draw(A);
+    draw(A, sizeof(A));
     delay(1000);
     //TODO HERZ impl
     //draw(HERZ);
@@ -400,7 +398,7 @@ void leuchten(int n) {
     pixels.clear();
   }
 
-  if (btVal == 'f') draw(FK);
+  if (btVal == 'f') draw(FK, sizeof(FK));
 
   if (btVal == 'h') { //herz
     pixels.clear();
