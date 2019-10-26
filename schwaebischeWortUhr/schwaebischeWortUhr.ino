@@ -14,6 +14,10 @@ int color = 1; //Variable für Farbe
 int colAddr = 0;
 int brightAddr = 0;
 
+//sleep time
+int sleepStart = 10
+int sleepStop = 7
+
 /*
 all hours
 */
@@ -238,19 +242,19 @@ void displayTime() {
   }
 
   //Stunden-Anzeige wird zugewiesen
-  if (hours > 12) hours = hours - 12;
-  if (hours == 1) displayContent(oise, sizeof(oise));
-  if (hours == 2) displayContent(zwoie, sizeof(zwoie));
-  if (hours == 3) displayContent(dreie, sizeof(dreie));
-  if (hours == 4) displayContent(viere, sizeof(viere));
-  if (hours == 5) displayContent(fuenfe, sizeof(fuenfe));
-  if (hours == 6) displayContent(sechse, sizeof(sechse));
-  if (hours == 7) displayContent(siebne, sizeof(siebne));
-  if (hours == 8) displayContent(achte, sizeof(achte));
-  if (hours == 9) displayContent(neune, sizeof(neune));
-  if (hours == 10) displayContent(zehne, sizeof(zehne));
-  if (hours == 11) displayContent(elfe, sizeof(elfe));
-  if (hours == 12 || hours == 0) displayContent(zwoelfe, sizeof(zwoelfe));
+  if (hours > 24) hours = hours - 24;
+  if (hours % 12 == 1) displayContent(oise, sizeof(oise));
+  if (hours % 12 == 2) displayContent(zwoie, sizeof(zwoie));
+  if (hours % 12  == 3) displayContent(dreie, sizeof(dreie));
+  if (hours % 12 == 4) displayContent(viere, sizeof(viere));
+  if (hours % 12 == 5) displayContent(fuenfe, sizeof(fuenfe));
+  if (hours % 12 == 6) displayContent(sechse, sizeof(sechse));
+  if (hours % 12 == 7) displayContent(siebne, sizeof(siebne));
+  if (hours % 12 == 8) displayContent(achte, sizeof(achte));
+  if (hours % 12 == 9) displayContent(neune, sizeof(neune));
+  if (hours % 12 == 10) displayContent(zehne, sizeof(zehne));
+  if (hours % 12 == 11) displayContent(elfe, sizeof(elfe));
+  if (hours % 12 == 0) displayContent(zwoelfe, sizeof(zwoelfe));
 
   //optional zur Ausgabe von Sekunden auf dem seriellen Monitor
   /*Serial.print(":");
@@ -316,6 +320,7 @@ void btCheck() {
       break;
     }
 
+  if (hours > 22 || hours < 7) brightness = 0;
 
 }
 
