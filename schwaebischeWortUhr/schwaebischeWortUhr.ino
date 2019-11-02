@@ -15,8 +15,8 @@ int colAddr = 0;
 int brightAddr = 0;
 
 //sleep time
-int sleepStart = 10
-int sleepStop = 7
+int sleepStart = 22;
+int sleepStop = 7;
 
 /*
 all hours
@@ -320,7 +320,7 @@ void btCheck() {
       break;
     }
 
-  if (hours > 22 || hours < 7) brightness = 0;
+  if (hours > sleepStart || (hours == sleepStart && minutes < 25) || hours < sleepStop || (hours == sleepStop && minutes < 25)) brightness = 0;
 
 }
 
@@ -365,7 +365,15 @@ void leuchten(int n) {
       break;
   }
 
+  if (btVal == 'f') {
+    sleepStart = 1;
+    sleepStop = 11;
+  }
 
+  if (btVal == 'v') {
+    sleepStart = 22;
+    sleepStop = 7;
+  }
 
   if (btVal == 'a') draw(FLO, sizeof(FLO));
 
