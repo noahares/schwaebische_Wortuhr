@@ -150,7 +150,7 @@ void setup() {
   randomSeed(A1); //Zufallsvariabe
   // aktuelle Zeit beim ersten Hochladen eingeben, danach auskommentieren und erneut hochladen
   // DS3231 sekunden, minuten, stunden
-  // setDS3231time(39,03,12);
+  // setDS3231time(40,58,10);
 }
 
 void readDS3231time(byte *second, byte *minute, byte *hour) {
@@ -320,7 +320,7 @@ void btCheck() {
       break;
     }
 
-  if (hours > sleepStart || (hours == sleepStart && minutes < 25) || hours < sleepStop || (hours == sleepStop && minutes < 25)) brightness = 0;
+  if (hours > sleepStart || (hours == sleepStart && minutes < 25) || hours < sleepStop || (hours == sleepStop && minutes >= 25)) brightness = 0;
 
 }
 
