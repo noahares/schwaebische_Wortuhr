@@ -15,7 +15,7 @@ int colAddr = 0;
 int brightAddr = 0;
 
 //sleep time
-int sleepStart = 22;
+int sleepStart = 21;
 int sleepStop = 7;
 
 /*
@@ -47,7 +47,7 @@ int dreiviertl[] = {12,13,14,15,16,17,18,19,20,21};
 
 //eckminuten
 int PLUS1[] = {111};
-int PLUS2[] = {111,112};
+int PLUS2[] = {111,113};
 int PLUS3[] = {111,112,113};
 int PLUS4[] = {110,111,112,113};
 
@@ -320,7 +320,7 @@ void btCheck() {
       break;
     }
 
-  if (hours > sleepStart || (hours == sleepStart && minutes < 25) || hours < sleepStop || (hours == sleepStop && minutes >= 25)) brightness = 0;
+  if (hours > sleepStart || (hours == sleepStart && minutes < 15) || hours < sleepStop || (hours == sleepStop && minutes >= 15)) brightness = 0;
 
 }
 
@@ -371,7 +371,7 @@ void leuchten(int n) {
   }
 
   if (btVal == 'v') {
-    sleepStart = 22;
+    sleepStart = 21;
     sleepStop = 7;
   }
 
@@ -391,7 +391,6 @@ void leuchten(int n) {
     delay(1000);
     draw(H, sizeof(H));
     delay(1000);
-    pixels.clear();
   }
 
   if (btVal == 'E') { //elena
@@ -405,10 +404,6 @@ void leuchten(int n) {
     delay(1000);
     draw(A, sizeof(A));
     delay(1000);
-    //TODO HERZ impl
-    //draw(HERZ);
-    //delay(1000);
-    pixels.clear();
   }
 
   if (btVal == 'f') draw(FK, sizeof(FK));
